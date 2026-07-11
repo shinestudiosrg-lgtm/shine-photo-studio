@@ -450,12 +450,7 @@
             <label>Paket
               <select name="package" id="bookingPackage"></select>
             </label>
-            <label>Tanggal
-              <input type="date" name="date">
-            </label>
-            <label>Catatan
-              <textarea name="note" placeholder="Contoh: foto keluarga 5 orang, photobooth wedding, atau konsep yang kamu mau."></textarea>
-            </label>
+            <div class="field-grid" id="bookingFields"></div>
             <button class="btn alt" type="submit">Kirim ke WhatsApp</button>
           </div>
         </form>
@@ -504,6 +499,7 @@
     const priceGrid = document.getElementById("priceGrid");
     const bookingService = document.getElementById("bookingService");
     const bookingPackage = document.getElementById("bookingPackage");
+    const bookingFields = document.getElementById("bookingFields");
 
     function renderServiceTabs(activeKey) {
       selector.innerHTML = serviceKeys.map((key) => {
@@ -524,6 +520,7 @@
       detailBooking.href = "#booking";
       bookingService.value = key;
       renderPackages(key);
+      renderBookingFields(key);
     }
 
     function allShots() {
@@ -560,6 +557,96 @@
 
     function renderPackages(serviceKey) {
       bookingPackage.innerHTML = data.pricing[serviceKey].map((item) => `<option value="${item.name}">${item.name} - ${item.price}</option>`).join("");
+      updateTotalFromPackage();
+    }
+
+    function selectedPackage() {
+      const serviceKey = bookingService.value || "studio";
+      return data.pricing[serviceKey].find((item) => item.name === bookingPackage.value) || data.pricing[serviceKey][0];
+    }
+
+    function formatMoney(value) {
+      const number = Number(value || 0);
+      if (!number) return "";
+      return `Rp${number.toLocaleString("id-ID")}`;
+    }
+
+    function moneyNumber(value) {
+      return Number(String(value || "").replace(/[^\d]/g, "")) || 0;
+    }
+
+    function updateTotalFromPackage(force = false) {
+      const total = document.querySelector("[name='total']");
+      if (!total) return;
+      const packageItem = selectedPackage();
+      if (force || !total.value || total.dataset.autofilled === "true") {
+        total.value = packageItem ? packageItem.price : "";
+        total.dataset.autofilled = "true";
+      }
+      updateRemainingPayment();
+    }
+
+    function updateRemainingPayment() {
+      const dp = document.querySelector("[name='dp']");
+      const remaining = document.querySelector("[name='remaining']");
+      const total = document.querySelector("[name='total']");
+      if (!dp || !remaining || !total) return;
+      const totalValue = moneyNumber(total.value);
+      const dpValue = moneyNumber(dp.value);
+      remaining.value = totalValue ? formatMoney(Math.max(totalValue - dpValue, 0)) : "";
+    }
+
+    function renderBookingFields(serviceKey) {
+      if (serviceKey === "booth") {
+        bookingFields.innerHTML = `
+          <label>No. WhatsApp
+            <input name="client_whatsapp" type="tel" inputmode="tel" placeholder="08xxxxxxxxxx" required>
+          </label>
+          <label>Nama Pengantin / Acara
+            <input name="event_name" placeholder="Contoh: Adit & Sari / Gathering kantor">
+          </label>
+          <label>Lokasi
+            <textarea name="location" placeholder="Alamat lengkap acara"></textarea>
+          </label>
+          <label>Durasi
+            <input name="duration" placeholder="Contoh: 3 jam">
+          </label>
+          <label>Total Harga
+            <input name="total" placeholder="Rp0">
+          </label>
+          <label>DP
+            <input name="dp" placeholder="Rp0">
+          </label>
+          <label>Sisa
+            <input name="remaining" placeholder="Rp0">
+          </label>
+        `;
+      } else {
+        bookingFields.innerHTML = `
+          <label>Jumlah Orang
+            <input name="people" inputmode="numeric" placeholder="Contoh: 2">
+          </label>
+          <label>Kategori
+            <input name="category" placeholder="Contoh: ${data.services[serviceKey].label}, couple, family, wisuda">
+          </label>
+          <label>Background
+            <input name="background" placeholder="Contoh: putih, abu, custom">
+          </label>
+          <label>Total Harga
+            <input name="total" placeholder="Rp0">
+          </label>
+          <label>Tanggal
+            <input type="date" name="date">
+          </label>
+          <label>Jam
+            <input type="time" name="time">
+          </label>
+          <label>Kontak WA
+            <input name="contact_whatsapp" type="tel" inputmode="tel" placeholder="08xxxxxxxxxx">
+          </label>
+        `;
+      }
+      updateTotalFromPackage(true);
     }
 
     document.addEventListener("click", (event) => {
@@ -574,23 +661,92 @@
         const key = packageLink.dataset.bookService;
         bookingService.value = key;
         renderPackages(key);
+        renderBookingFields(key);
         bookingPackage.value = packageLink.dataset.bookPackage;
+        updateTotalFromPackage(true);
       }
     });
 
-    bookingService.addEventListener("change", () => renderPackages(bookingService.value));
+    bookingService.addEventListener("change", () => {
+      renderPackages(bookingService.value);
+      renderBookingFields(bookingService.value);
+    });
+
+    bookingPackage.addEventListener("change", () => updateTotalFromPackage(true));
+
+    document.addEventListener("input", (event) => {
+      if (event.target.matches("[name='total']")) {
+        event.target.dataset.autofilled = "false";
+        updateRemainingPayment();
+      }
+      if (event.target.matches("[name='dp']")) updateRemainingPayment();
+    });
+
+    function nextBookingId() {
+      const key = "shineBookingCounter";
+      const next = (Number(localStorage.getItem(key)) || 0) + 1;
+      localStorage.setItem(key, String(next));
+      return `SHINE-BKG-${String(next).padStart(5, "0")}`;
+    }
+
+    function studioBookingMessage(form, serviceKey) {
+      return [
+        "*BOOKING SHINE SELF PHOTO STUDIO*",
+        "━━━━━━━━━━━━━━━━━━",
+        `Nama: ${form.get("name") || "-"}`,
+        `Jumlah Orang: ${form.get("people") || "-"}`,
+        `Kategori: ${form.get("category") || data.services[serviceKey].label}`,
+        `Paket: ${form.get("package") || "-"}`,
+        `Background: ${form.get("background") || "-"}`,
+        `Total Harga: ${form.get("total") || "-"}`,
+        `Tanggal: ${form.get("date") || "-"}`,
+        `Jam: ${form.get("time") || "-"}`,
+        `Kontak WA: ${form.get("contact_whatsapp") || "-"}`,
+        "━━━━━━━━━━━━━━━━━━",
+        "Terima kasih sudah booking di Shine Self Photo Studio"
+      ].join("\n");
+    }
+
+    function photoboothBookingMessage(form) {
+      return [
+        "FORM BOOKING SEWA PHOTOBOOTH - SHINE STUDIO",
+        `ID Booking: ${nextBookingId()}`,
+        "",
+        "Data Klien",
+        `Nama: ${form.get("name") || "-"}`,
+        `No. WhatsApp: ${form.get("client_whatsapp") || "-"}`,
+        "",
+        "Detail Acara",
+        `Nama Pengantin / Acara: ${form.get("event_name") || "-"}`,
+        `Lokasi: ${form.get("location") || "-"}`,
+        "",
+        "Paket Layanan",
+        `Paket: ${form.get("package") || "-"}`,
+        `Durasi: ${form.get("duration") || "-"}`,
+        "",
+        "Pembayaran",
+        `Total Harga: ${form.get("total") || "-"}`,
+        `DP: ${form.get("dp") || "-"}`,
+        `Sisa: ${form.get("remaining") || "-"}`,
+        "",
+        "Ketentuan:",
+        "- DP sebagai tanda jadi (non-refundable)",
+        "- Pelunasan maksimal H-1 acara",
+        "",
+        "No. Rekening:",
+        "BRI 385301091677533 a.n. Muhamad Saepi",
+        "SeaBank 901334062659 a.n. Muhamad Saepi",
+        "",
+        "Kontak WA: 083894036552",
+        "Terima kasih sudah booking Sewa Photobooth di SHINE Studio"
+      ].join("\n");
+    }
 
     document.getElementById("bookingForm").addEventListener("submit", (event) => {
       event.preventDefault();
       const form = new FormData(event.currentTarget);
-      const message = [
-        "Halo SHINE PHOTO STUDIO, saya mau booking.",
-        `Nama: ${form.get("name") || "-"}`,
-        `Layanan: ${data.services[form.get("service")].label}`,
-        `Paket: ${form.get("package") || "-"}`,
-        `Tanggal: ${form.get("date") || "-"}`,
-        `Catatan: ${form.get("note") || "-"}`
-      ].join("\n");
+      const serviceKey = form.get("service");
+      const message = serviceKey === "booth" ? photoboothBookingMessage(form) : studioBookingMessage(form, serviceKey);
       window.open(`https://wa.me/6283894036552?text=${encodeURIComponent(message)}`, "_blank", "noopener");
     });
 
