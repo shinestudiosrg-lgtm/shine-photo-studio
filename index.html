@@ -689,6 +689,137 @@
       .ticker-track { animation: none; }
       .page-loader { display: none; }
     }
+    /* 2026 editorial storefront refresh */
+    :root {
+      --blue: #1b1b1a;
+      --blue-dark: #151514;
+      --blue-bright: #d85c3b;
+      --blue-pale: #f7f3ed;
+      --yellow: #e6e04f;
+      --yellow-pale: #f6f3b7;
+      --ink: #20201e;
+      --muted: #696761;
+      --line: #ddd9d1;
+      --cloud: #f5f3ee;
+      --white: #fffefb;
+      --shadow: 0 18px 48px rgba(31, 29, 25, .10);
+      --header-h: 62px;
+    }
+    body { background: var(--white); font-family: Arial, Helvetica, sans-serif; letter-spacing: -.01em; }
+    .wrap { width: min(1320px, calc(100% - 48px)); }
+    .site-header { height: var(--header-h); background: rgba(255,254,251,.92); border-color: var(--line); }
+    .brand { gap: 9px; }
+    .brand-mark { width: 28px; height: 28px; border-radius: 50%; background: var(--ink); color: var(--yellow); font-size: 16px; }
+    .brand-copy strong { font-size: 16px; letter-spacing: .02em; }
+    .brand-copy span { color: var(--muted); font-size: 8px; letter-spacing: .12em; }
+    .nav { gap: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; }
+    .nav a { padding: 22px 0 19px; }
+    .nav a::after { bottom: 13px; height: 1px; background: var(--ink); }
+    .nav a.active { color: var(--ink); }
+    .btn { min-height: 42px; padding: 0 16px; border-radius: 999px; border-color: var(--ink); background: var(--ink); color: var(--white); font-size: 12px; font-weight: 800; letter-spacing: .02em; }
+    .btn:hover { box-shadow: none; transform: translateY(-2px); }
+    .btn-yellow { border-color: var(--yellow); background: var(--yellow); color: var(--ink); }
+    .btn-white { border-color: var(--white); background: var(--white); color: var(--ink); }
+    .btn-outline { border-color: rgba(255,255,255,.65); color: var(--white); }
+    .btn-blue { border-color: var(--ink); background: var(--ink); }
+    .header-cta { min-height: 36px; font-size: 11px; }
+    .hero { height: min(780px, calc(100svh - var(--header-h))); min-height: 620px; background: #d8d4ca; color: var(--ink); }
+    .hero-media { left: 41%; transform: none !important; }
+    .hero-media img { object-position: center; filter: saturate(.82) contrast(1.04); animation: none !important; }
+    .hero-media img:last-child { display: none; }
+    .hero-scrim { background: linear-gradient(90deg, rgba(246,243,237,.99) 0%, rgba(246,243,237,.9) 38%, rgba(246,243,237,.08) 67%, rgba(20,20,18,.12) 100%); }
+    .hero-panel, .hero-accent { display: none; }
+    .hero-inner { padding: 64px 0 50px; }
+    .hero-content { max-width: 570px; }
+    .eyebrow { margin-bottom: 18px; color: var(--blue-bright); font-size: 10px; letter-spacing: .14em; }
+    .eyebrow::before { width: 22px; height: 1px; background: currentColor; }
+    .hero .eyebrow { color: var(--blue-bright); }
+    .hero .eyebrow::before { background: currentColor; }
+    h1, h2, h3 { letter-spacing: -.055em; }
+    h1 { font-size: clamp(52px, 7vw, 104px); font-weight: 700; line-height: .89; }
+    h1 span { color: var(--blue-bright); }
+    h2 { font-size: clamp(40px, 4.4vw, 70px); font-weight: 700; line-height: .93; }
+    h3 { font-size: 25px; }
+    .hero-copy { margin-top: 25px; color: #4e4d48; font-size: 17px; line-height: 1.55; }
+    .hero-proof { margin-top: 44px; padding-top: 15px; border-color: rgba(32,32,30,.25); }
+    .hero-proof dt { color: var(--ink); font-size: 24px; }
+    .hero-proof dd { color: var(--muted); font-weight: 600; }
+    .ticker { padding: 11px 0; background: var(--yellow); color: var(--ink); }
+    .section { padding: 116px 0; }
+    .section-cloud { background: var(--cloud); }
+    .section-blue { background: var(--ink); }
+    .section-head { grid-template-columns: minmax(0, 1.15fr) minmax(280px, .55fr); gap: 64px; margin-bottom: 48px; }
+    .section-head p:last-child { font-size: 15px; line-height: 1.6; }
+    .service-selector { gap: 1px; margin-bottom: 1px; background: var(--line); }
+    .service-tab { min-height: 172px; grid-template-columns: 94px 1fr; gap: 18px; padding: 14px; border: 0; border-radius: 0; }
+    .service-tab img { width: 94px; height: 142px; border-radius: 0; }
+    .service-tab-index { color: var(--blue-bright); letter-spacing: .1em; }
+    .service-tab strong { font-size: 22px; letter-spacing: -.04em; }
+    .service-tab.active { background: var(--blue-bright); color: var(--white); box-shadow: none; }
+    .service-tab.active .service-tab-index, .service-tab.active span:last-child { color: rgba(255,255,255,.78); }
+    .service-stage { min-height: 620px; grid-template-columns: minmax(310px, .72fr) minmax(480px, 1.28fr); border-radius: 0; box-shadow: none; background: var(--ink); }
+    .service-copy { padding: 52px; }
+    .service-copy h3 { font-size: 42px; }
+    .result-grid { gap: 2px; padding: 2px; }
+    .result-grid img { min-height: 302px; }
+    .gallery-controls, .price-controls { gap: 0; padding: 0; border: 0; border-radius: 0; background: transparent; }
+    .gallery-filter, .price-tab { min-height: 39px; padding: 0 14px; border: 1px solid rgba(255,255,255,.28); border-radius: 999px; margin-right: 7px; font-size: 11px; letter-spacing: .04em; }
+    .gallery-filter.active { background: var(--yellow); color: var(--ink); }
+    .price-tab { border-color: var(--line); color: var(--muted); }
+    .price-tab.active { background: var(--ink); color: var(--white); }
+    .portfolio-grid { grid-auto-rows: 210px; gap: 3px; }
+    .shot { border-radius: 0; }
+    .shot-label { inset: auto 0 0; padding: 12px 14px; border-radius: 0; background: linear-gradient(transparent, rgba(20,20,18,.82)); backdrop-filter: none; }
+    .price-grid { gap: 2px; }
+    .price-card { min-height: 440px; padding: 30px; border: 0; border-radius: 0; box-shadow: none; }
+    .price-card:hover { transform: translateY(-4px); box-shadow: 0 15px 28px rgba(31,29,25,.12); }
+    .price-card.featured { background: var(--blue-bright); border-color: var(--blue-bright); }
+    .price-card.featured .price-service, .price-card.featured .price, .price-card.featured li::before { color: var(--yellow); }
+    .popular-tag { top: 16px; padding: 6px 10px; background: var(--yellow); color: var(--ink); }
+    .price-service { color: var(--blue-bright); letter-spacing: .11em; }
+    .price { color: var(--ink); font-size: 34px; }
+    .price-card h3 { font-size: 28px; }
+    .price-card li::before { color: var(--blue-bright); }
+    .booking-grid { gap: 72px; }
+    .booking-card { border-radius: 0; }
+    .footer { background: #e9e5dc; }
+    .wa-float { right: 18px; bottom: 18px; border-radius: 999px; background: var(--yellow); color: var(--ink); box-shadow: 0 10px 28px rgba(20,20,18,.17); }
+    .reveal { transform: translateY(20px); }
+    @media (max-width: 800px) {
+      .wrap { width: min(100% - 32px, 1320px); }
+      .site-header { height: 58px; }
+      .nav, .header-cta { display: none; }
+      .menu-toggle { width: 38px; height: 38px; border-radius: 50%; }
+      .mobile-nav { inset: var(--header-h) 0 auto; }
+      .mobile-nav a { font-size: 13px; letter-spacing: .04em; }
+      .hero { min-height: 690px; height: calc(100svh - 58px); }
+      .hero-media { left: 0; top: 36%; }
+      .hero-scrim { background: linear-gradient(180deg, rgba(246,243,237,.98) 0%, rgba(246,243,237,.94) 38%, rgba(246,243,237,.12) 80%, rgba(20,20,18,.18) 100%); }
+      .hero-inner { align-self: start; padding-top: 44px; }
+      .hero-content { max-width: 100%; }
+      h1 { font-size: clamp(46px, 15vw, 70px); }
+      .hero-copy { max-width: 390px; font-size: 15px; }
+      .hero-proof { margin-top: 28px; }
+      .hero-proof dt { font-size: 20px; }
+      .hero-proof dd { font-size: 10px; }
+      .section { padding: 78px 0; }
+      .section-head { gap: 20px; margin-bottom: 30px; }
+      .service-selector { grid-template-columns: 1fr; }
+      .service-tab { min-height: 126px; grid-template-columns: 76px 1fr; }
+      .service-tab img { width: 76px; height: 98px; }
+      .service-stage { min-height: 0; grid-template-columns: 1fr; }
+      .service-copy { padding: 38px 25px; }
+      .service-copy h3 { font-size: 34px; }
+      .result-grid img { min-height: 175px; }
+      .portfolio-grid { grid-auto-rows: 125px; gap: 2px; }
+      .price-grid { grid-template-columns: 1fr; }
+      .price-card { min-height: 0; }
+      .booking-grid { gap: 38px; }
+      .wa-float { right: 12px; bottom: 12px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+    }
   </style>
 </head>
 <body>
@@ -808,7 +939,7 @@
             <div class="booking-step"><strong>Kirim ke WhatsApp</strong><span>Tim SHINE akan mengecek jadwal dan mengonfirmasi booking.</span></div>
           </div>
           <div class="contact-list">
-            <a href="https://wa.me/6283894036552" target="_blank" rel="noopener"><span class="contact-badge" aria-hidden="true">WA</span><span>0838-9403-6552</span></a>
+            <a href="https://wa.me/6285121809135" target="_blank" rel="noopener"><span class="contact-badge" aria-hidden="true">WA</span><span>0851-2180-9135</span></a>
             <a href="https://instagram.com/shine.photostudio_id" target="_blank" rel="noopener"><span class="contact-badge" aria-hidden="true">IG</span><span>@shine.photostudio_id</span></a>
             <a href="https://tiktok.com/@shine.photostudio_id" target="_blank" rel="noopener"><span class="contact-badge" aria-hidden="true">TT</span><span>@shine.photostudio_id</span></a>
             <a href="https://www.google.com/maps/search/?api=1&query=Perum.%20Persada%20Banten%20Blok%20A7%20No%204%20Kepuren%20Walantaka%20Serang" target="_blank" rel="noopener"><span class="contact-badge" aria-hidden="true">MAP</span><span>Perum. Persada Banten Blok A7 No. 4, Kepuren, Walantaka, Kota Serang</span></a>
@@ -855,14 +986,14 @@
     <div class="wrap footer-main">
       <div><div class="footer-brand">SHINE<span>PHOTO STUDIO</span></div><p class="footer-copy">Tempat momen personal, kebersamaan, dan acara spesialmu berubah menjadi foto yang ingin terus dilihat kembali.</p></div>
       <div><h3>Jelajahi</h3><div class="footer-links"><a href="#layanan">Layanan</a><a href="#hasil">Hasil Foto</a><a href="#harga">Paket Harga</a><a href="#booking">Booking</a></div></div>
-      <div><h3>Ikuti SHINE</h3><div class="footer-links"><a href="https://instagram.com/shine.photostudio_id" target="_blank" rel="noopener">Instagram</a><a href="https://tiktok.com/@shine.photostudio_id" target="_blank" rel="noopener">TikTok</a><a href="https://wa.me/6283894036552" target="_blank" rel="noopener">WhatsApp</a></div></div>
+          <div><h3>Ikuti SHINE</h3><div class="footer-links"><a href="https://instagram.com/shine.photostudio_id" target="_blank" rel="noopener">Instagram</a><a href="https://tiktok.com/@shine.photostudio_id" target="_blank" rel="noopener">TikTok</a><a href="https://wa.me/6285121809135" target="_blank" rel="noopener">WhatsApp</a></div></div>
     </div>
     <div class="wrap footer-bottom"><span>© <span id="year"></span> SHINE PHOTO STUDIO</span><span>Photo Studio · Photo Box · Photobooth</span></div>
   </footer>
 
   <div class="floating-actions">
     <button class="to-top" id="toTop" type="button" aria-label="Kembali ke atas" title="Kembali ke atas">↑</button>
-    <a class="wa-float" href="https://wa.me/6283894036552" target="_blank" rel="noopener" aria-label="Chat SHINE lewat WhatsApp"><span class="wa-mark" aria-hidden="true">WA</span><span>Chat WhatsApp</span></a>
+    <a class="wa-float" href="https://wa.me/6285121809135" target="_blank" rel="noopener" aria-label="Chat SHINE lewat WhatsApp"><span class="wa-mark" aria-hidden="true">WA</span><span>Chat WhatsApp</span></a>
   </div>
 
   <dialog class="lightbox" id="lightbox" aria-label="Tampilan foto penuh">
@@ -1142,7 +1273,7 @@
         "BRI 385301091677533 a.n. Muhamad Saepi",
         "SeaBank 901334062659 a.n. Muhamad Saepi",
         "",
-        "Kontak WA: 083894036552",
+        "Kontak WA: 085121809135",
         "Terima kasih sudah booking Sewa Photobooth di SHINE Studio"
       ].join("\n");
     }
@@ -1192,7 +1323,7 @@
       const form = new FormData(event.currentTarget);
       const serviceKey = form.get("service");
       const message = serviceKey === "booth" ? photoboothBookingMessage(form) : studioBookingMessage(form, serviceKey);
-      window.open(`https://wa.me/6283894036552?text=${encodeURIComponent(message)}`, "_blank", "noopener");
+      window.open(`https://wa.me/6285121809135?text=${encodeURIComponent(message)}`, "_blank", "noopener");
     });
 
     lightbox.querySelector(".lightbox-close").addEventListener("click", () => lightbox.close());
